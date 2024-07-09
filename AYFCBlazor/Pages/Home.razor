@@ -1,0 +1,41 @@
+﻿@page "/"
+@using Microsoft.Extensions.FileProviders
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div>
+    <button type="button" class="btn btn-primary" @onclick="ConfigurarViewer">
+        Configurar ambiente
+    </button>
+    <input type="file" name="load" id="file-input" accept=".ifc" />
+    </div>
+
+<div class="viewer" id="container"></div>
+
+
+@code {
+    // Essa função roda após a página estiver renderizada, garantindo que os elementos estejam ok
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ConfigurarViewer();
+        }
+    }
+
+    public async Task ConfigurarViewer()
+    {
+        await JSRuntime.InvokeVoidAsync("funcoes.ConfigurarViewer", null);
+        await JSRuntime.InvokeVoidAsync("funcoes.ConfigurarCarregamento", null);
+    }
+
+    // public async void Teste()
+    // {
+    //     await JSRuntime.InvokeAsync<string>("funcoes.Teste", null);
+    // }
+}
